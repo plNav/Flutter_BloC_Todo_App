@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     const style = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BloC Patter: To Dos'),
+        title: const Text('BloC Pattern: To Dos'),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
       body: BlocConsumer<TodosBloc, TodosState>(
         listener: (context, state) {
           if (state.status == TodosStatus.todoDeleted) {
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(_deleteSnackBar(state, context));
           }
         },
@@ -72,13 +73,21 @@ class HomeScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('#${todo.id}" ${todo.task}', style: style),
+            Text('#${todo.id} - ${todo.task}', style: style),
             Row(
               children: [
                 IconButton(
-                    onPressed: () => context.read<TodosBloc>().add(DeleteTodo(todo: todo)),
-                    icon: const Icon(Icons.cancel)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.add_task)),
+                  icon: const Icon(Icons.cancel),
+                  onPressed: () => context.read<TodosBloc>().add(
+                        DeleteTodo(todo: todo),
+                      ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_task),
+                  onPressed: () => context.read<TodosBloc>().add(
+                        UpdateTodo(todo: todo.copyWith(isCompleted: true)),
+                      ),
+                ),
               ],
             ),
           ],
@@ -98,7 +107,7 @@ class HomeScreen extends StatelessWidget {
         },
       ),
       content: Text(
-        'To Do Deleted\n${state.lastTodo?.id}: ${state.lastTodo?.task}',
+        'To Do Deleted: ${state.lastTodo?.task}',
       ),
     );
   }
