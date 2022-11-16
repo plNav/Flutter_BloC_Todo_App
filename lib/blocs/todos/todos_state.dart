@@ -1,6 +1,6 @@
 part of 'todos_bloc.dart';
 
-enum TodosStatus { loadingTodos, todosLoaded, todoDeleted }
+enum TodosStatus { loading, loaded, deleted }
 
 class TodosState extends Equatable {
   final TodosStatus status;
@@ -8,7 +8,7 @@ class TodosState extends Equatable {
   final Todo? lastTodo;
 
   const TodosState({
-    this.status = TodosStatus.loadingTodos,
+    this.status = TodosStatus.loading,
     this.todos = const [],
     this.lastTodo,
   });

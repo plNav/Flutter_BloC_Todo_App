@@ -18,7 +18,7 @@ class AddTodoScreen extends StatelessWidget {
       ),
       body: BlocListener<TodosBloc, TodosState>(
         listener: (context, state) {
-          if (state.status != TodosStatus.todoDeleted) return;
+          if (state.status != TodosStatus.deleted) return;
           ScaffoldMessenger.of(context).showSnackBar(_addSnackBar(state.lastTodo));
         },
         child: Card(
