@@ -19,17 +19,17 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
       : _todosBloc = todosBloc,
         super(const TodosFilterState()) {
     on<UpdateTodos>(_onUpdateTodos);
-    on<UpdateFilter>(_onUpdateFilter);
+   // on<UpdateFilter>(_onUpdateFilter);
 
     _todosSubscription = todosBloc.stream.listen((todoState) {
-      printC(SUCCESS, 'ToDos Length = ${todoState.todos.length}');
-      add(UpdateFilter(todos: todoState.todos));
+      printC(SUCCESS, 'ToDos Length (StreamSubscription) = ${todoState.todos.length}');
+      add(UpdateTodos(allTodos: todoState.todos));
     });
   }
 
   FutureOr<void> _onUpdateTodos(UpdateTodos event, Emitter<TodosFilterState> emit) {
     if(event.todosFilterStatus == TodosFilterStatus.pending){
-      List<Todo> pendingTodos = state.todosFiltered
+      List<Todo> pendingTodos = event.allTodos
           .where((todo) => todo.isCancelled == false && todo.isCompleted == false)
           .toList();
       emit(state.copyWith(todosFiltered: pendingTodos));
@@ -37,15 +37,16 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
       return null;
     }
     if(event.todosFilterStatus == TodosFilterStatus.completed){
-      List<Todo> completedTodos = state.todosFiltered
+      List<Todo> completedTodos = event.allTodos
           .where((todo) => todo.isCompleted == true && todo.isCancelled == false)
           .toList();
-      printC(BLUE, 'Pending ToDos = ${completedTodos.length}');
-      emit(state.copyWith(todosFiltered: completedTodos));
+      printC(CYAN, 'Completed ToDos = ${completedTodos.length}');
+      emit(state.copyWith(todosFiltered: completedTodos, allTodos: event.allTodos));
     }
   }
 
-  FutureOr<void> _onUpdateFilter(UpdateFilter event, Emitter<TodosFilterState> emit) {
-    emit(state.copyWith(status: state.status, todosFiltered: event.todos));
-  }
+/*  FutureOr<void> _onUpdateFilter(UpdateFilter event, Emitter<TodosFilterState> emit) {
+    emit(state.copyWith(status: state.status, allTodos: List.from(event.allTodos)));
+    add(UpdateTodos(todosFilterStatus: state.status));
+  }*/
 }

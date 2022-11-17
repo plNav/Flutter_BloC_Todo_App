@@ -11,49 +11,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('BloC Pattern: To Dos'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const AddTodoScreen()),
-              ),
-            ),
-          ],
-          bottom: TabBar(
-            onTap: (tabIndex) {
-              switch (tabIndex) {
-                case 0:
-                  BlocProvider.of<TodosFilterBloc>(context).add(
-                    const UpdateTodos(todosFilterStatus: TodosFilterStatus.pending),
-                  );
-                  break;
-                case 1:
-                  BlocProvider.of<TodosFilterBloc>(context).add(
-                    const UpdateTodos(todosFilterStatus: TodosFilterStatus.completed),
-                  );
-                  break;
-              }
-            },
-            tabs: const [
-              Tab(icon: Icon(Icons.pending)),
-              Tab(icon: Icon(Icons.add_task)),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [_todoTab('Pending To Dos: '), _todoTab('Completed To Dos: ')],
-        ),
-      ),
-    );
-  }
-
-  BlocConsumer<TodosFilterBloc, TodosFilterState> _todoTab(String title) {
-    const style = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     return BlocConsumer<TodosFilterBloc, TodosFilterState>(
       listener: (context, state) {
         if (state.status == TodosStatus.deleted) {
@@ -65,29 +22,80 @@ class HomeScreen extends StatelessWidget {
         if (state.status == TodosStatus.loading) {
           return const Center(child: CircularProgressIndicator());
         }
-
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(title, style: style),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.todosFiltered.length,
-                itemBuilder: (context, index) => _todoCard(
-                  todo: state.todosFiltered[index],
-                  style: style,
-                  context: context,
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('BloC Pattern: To Dos'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const AddTodoScreen()),
+                  ),
                 ),
+              ],
+              bottom: TabBar(
+                onTap: (tabIndex) {
+                  switch (tabIndex) {
+                    case 0:
+                      BlocProvider.of<TodosFilterBloc>(context).add(
+                        UpdateTodos(
+                          todosFilterStatus: TodosFilterStatus.pending,
+                          allTodos: state.allTodos,
+                        ),
+                      );
+                      break;
+                    case 1:
+                      BlocProvider.of<TodosFilterBloc>(context).add(
+                        UpdateTodos(
+                          todosFilterStatus: TodosFilterStatus.completed,
+                          allTodos: state.allTodos,
+                        ),
+                      );
+                      break;
+                  }
+                },
+                tabs: const [
+                  Tab(icon: Icon(Icons.pending)),
+                  Tab(icon: Icon(Icons.add_task)),
+                ],
               ),
-            ],
+            ),
+            body: TabBarView(
+              children: [
+                _todoTab('Pending To Dos: ', state),
+                _todoTab('Completed To Dos: ', state)
+              ],
+            ),
           ),
         );
       },
+    );
+  }
+
+  Padding _todoTab(String title, TodosFilterState state) {
+    const style = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(title, style: style),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: state.todosFiltered.length,
+            itemBuilder: (context, index) => _todoCard(
+              todo: state.todosFiltered[index],
+              style: style,
+              context: context,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -9,19 +9,21 @@ abstract class TodosFilterEvent extends Equatable {
 
 class UpdateTodos extends TodosFilterEvent {
   final TodosFilterStatus todosFilterStatus;
+  final List<Todo> allTodos;
 
-  const UpdateTodos({this.todosFilterStatus = TodosFilterStatus.all});
+
+  const UpdateTodos({this.todosFilterStatus = TodosFilterStatus.all, required this.allTodos});
 
   @override
   List<Object?> get props => [todosFilterStatus];
 }
 
-class UpdateFilter extends TodosFilterEvent {
-  final List<Todo> todos;
-  const UpdateFilter({required this.todos});
+/*class UpdateFilter extends TodosFilterEvent {
+  final List<Todo> allTodos;
+  const UpdateFilter({required this.allTodos});
 
   @override
   List<Object?> get props => [];
 
 
-}
+}*/

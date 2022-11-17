@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/model_todos.dart';
+import '../../util/console_printer.dart';
 
 part 'todos_event.dart';
 
@@ -19,6 +20,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
 
   FutureOr<void> _onLoadTodos(LoadTodos event, Emitter<TodosState> emit) async {
     await Future.delayed(const Duration(seconds: 1));
+    printC(WARNING, '_onLoadTodos ${event.todos}');
     emit(state.copyWith(
       status: TodosStatus.loaded,
       todos: event.todos,
@@ -27,6 +29,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   }
 
   void _onAddTodo(AddTodo event, Emitter<TodosState> emit) {
+    printC(WARNING, '_onAddTodo ${event.todo}');
     emit(state.copyWith(
       status: TodosStatus.loaded,
       todos: List<Todo>.from(state.todos)..add(event.todo!),
@@ -35,6 +38,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   }
 
   void _onDeleteTodo(DeleteTodo event, Emitter<TodosState> emit) {
+    printC(WARNING, '_onDeleteTodo ${event.todo}');
     emit(state.copyWith(
       status: TodosStatus.deleted,
       todos: List<Todo>.from(state.todos.where((todo) => event.todo != todo)),
@@ -43,6 +47,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   }
 
   void _onUpdateTodo(UpdateTodo event, Emitter<TodosState> emit) {
+    printC(WARNING, '_onUpdateTodo ${event.todo}');
     emit(state.copyWith(
       status: TodosStatus.loaded,
       todos: List<Todo>.from(
