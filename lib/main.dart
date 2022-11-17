@@ -9,13 +9,9 @@ import 'models/model_todos.dart';
 import 'simple_bloc_observer.dart';
 
 void main() {
-  //printTest();
-  BlocOverrides.runZoned(
-    () {
-      runApp(const MyApp());
-    },
-    blocObserver: SimpleBlocObserver(),
-  );
+  printCTest();
+  Bloc.observer = SimpleBlocObserver();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
