@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/todos/todos_bloc.dart';
 import '../models/model_todos.dart';
 
+
 class AddTodoScreen extends StatelessWidget {
   const AddTodoScreen({Key? key}) : super(key: key);
 
@@ -12,71 +13,73 @@ class AddTodoScreen extends StatelessWidget {
     TextEditingController controllerId = TextEditingController();
     TextEditingController controllerTask = TextEditingController();
     TextEditingController controllerDescription = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BloC Pattern: Add a ToDo'),
+        title: const Text('BloC Pattern: Add a To Do'),
       ),
-      body: BlocListener<TodosBloc, TodosState>(
-        listener: (context, state) {
-          if (state.status != TodosStatus.deleted) return;
-          ScaffoldMessenger.of(context).showSnackBar(_addSnackBar(state.lastTodo));
-        },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                _inputField('ID', controllerId),
-                _inputField('Task', controllerTask),
-                _inputField('Description', controllerDescription),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                    ),
+      body: BlocBuilder<TodosBloc, TodosState>(
+        builder: (context, state) {
+          if (state is TodosLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is! TodosLoaded) {
+            return const Center(child: Text('Something Went Wrong'));
+          }
+
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  _inputField('ID', controllerId),
+                  _inputField('Task', controllerTask),
+                  _inputField('Description', controllerDescription),
+                  ElevatedButton(
                     onPressed: () {
-                      var todo = Todo(
+                      final todo = Todo(
                         id: controllerId.value.text,
                         task: controllerTask.value.text,
                         description: controllerDescription.value.text,
                       );
                       context.read<TodosBloc>().add(AddTodo(todo: todo));
-                      Navigator.of(context).pop();
+                      Navigator.pop(context);
                     },
-                    child: const Text('Add To Do')),
-              ],
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                    ),
+                    child: const Text('Add To Do'),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
 
-  SnackBar _addSnackBar(Todo? todo) {
-    return SnackBar(
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'New ToDo\n${todo?.id}: ${todo?.task}',
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Column _inputField(String field, TextEditingController controller) {
-    const style = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-
+  Column _inputField(
+      String field,
+      TextEditingController controller,
+      ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('$field: ', style: style),
+        Text(
+          '$field: ',
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         Container(
           height: 50,
-          width: double.infinity,
           margin: const EdgeInsets.only(bottom: 10),
-          child: TextFormField(controller: controller),
+          width: double.infinity,
+          child: TextFormField(
+            controller: controller,
+          ),
         ),
       ],
     );

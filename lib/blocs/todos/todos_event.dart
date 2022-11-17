@@ -1,45 +1,60 @@
 part of 'todos_bloc.dart';
 
-abstract class TodosEvent extends Equatable {
-  const TodosEvent();
+abstract class TodoEvent extends Equatable {
+  const TodoEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
-class LoadTodos extends TodosEvent {
+class LoadTodos extends TodoEvent {
   final List<Todo> todos;
-  final Todo? lastTodo;
 
-  const LoadTodos({this.todos = const <Todo>[], this.lastTodo});
-
-  @override
-  List<Object?> get props => [todos];
-}
-
-class AddTodo extends TodosEvent {
-  final Todo? todo;
-
-  const AddTodo({required this.todo});
+  const LoadTodos({
+    this.todos = const <Todo>[],
+  });
 
   @override
-  List<Object?> get props => [todo];
+  List<Object> get props => [todos];
 }
 
-class UpdateTodo extends TodosEvent {
+class AddTodo extends TodoEvent {
   final Todo todo;
 
-  const UpdateTodo({required this.todo});
+  const AddTodo({
+    required this.todo,
+  });
 
   @override
-  List<Object?> get props => [todo];
+  List<Object> get props => [todo];
 }
 
-class DeleteTodo extends TodosEvent {
+class UpdateTodo extends TodoEvent {
   final Todo todo;
 
-  const DeleteTodo({required this.todo});
+  const UpdateTodo({
+    required this.todo,
+  });
 
   @override
-  List<Object?> get props => [todo];
+  List<Object> get props => [todo];
+}
+
+class DeleteTodo extends TodoEvent {
+  final Todo todo;
+
+  const DeleteTodo({
+    required this.todo,
+  });
+
+  @override
+  List<Object> get props => [todo];
+}
+
+class TodoError extends TodoEvent {
+  const TodoError();
+}
+
+class TodoErrorDone extends TodoEvent {
+  const TodoErrorDone();
 }
