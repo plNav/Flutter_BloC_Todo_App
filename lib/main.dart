@@ -9,9 +9,9 @@ import 'models/model_todos.dart';
 import 'simple_bloc_observer.dart';
 
 void main() {
-  printTest();
+  //printTest();
   BlocOverrides.runZoned(
-        () {
+    () {
       runApp(const MyApp());
     },
     blocObserver: SimpleBlocObserver(),
@@ -25,36 +25,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (context) {
-              printC(SUCCESS, '(Main) Initialize TodosBloc with LoadTodos Event with values');
-              return TodosBloc()
-                ..add(
-                  LoadTodos(
-                    todos: [
-                      Todo(
-                        id: '1',
-                        task: 'BloC Pattern Video',
-                        description: 'Explain what is the BloC Pattern',
-                      ),
-                      Todo(
-                        id: '2',
-                        task: 'BloC Pattern Video #2',
-                        description: 'Explain what is the BloC Pattern',
-                      ),
-                    ],
-                  ),
-                );
-            }
-        ),
-        BlocProvider(
-            create: (context) {
-              printC(SUCCESS, '(Main) Initialize TodosStatusBloc with UpdateTodosStatus Event');
-              return TodosStatusBloc(
-                todosBloc: BlocProvider.of<TodosBloc>(context),
-              );//..add(const UpdateTodosStatus());
-            }
-        ),
+        BlocProvider(create: (context) {
+          printC(SUCCESS, '(Main) Initialize TodosBloc with LoadTodos Event with values');
+          return TodosBloc()..add(LoadTodos(todos: Todo.todos));
+        }),
+        BlocProvider(create: (context) {
+          printC(WARNING, '(Main) Initialize TodosStatusBloc with UpdateTodosStatus Event');
+          return TodosStatusBloc(todosBloc: BlocProvider.of<TodosBloc>(context));
+        }),
       ],
       child: MaterialApp(
         title: 'BloC Pattern - Todos',

@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<TodosBloc, TodosState>(
       listener: (context, mainState) {
-        printC(SUCCESS, 'MAIN state ---> ${mainState.runtimeType}');
+        printC(GREEN, 'STATE (TodosBloc) ---> ${mainState.runtimeType}');
         if (mainState is TodosDeleted) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(_deleteSnackBar(mainState, context));
@@ -36,19 +36,19 @@ class HomeScreen extends StatelessWidget {
         }
 
         if (mainState is TodosError) {
-          printC(ERROR, 'MAIN STATE ERROR');
           InfoPopup.show(context: context, text: ['Se ha producido un Error']);
+          return;
         }
       },
       child: BlocBuilder<TodosStatusBloc, TodosStatusState>(
         builder: (context, state) {
-          printC(WARNING, 'STATUS state ---> ${state.runtimeType}');
+          printC(YELLOW, 'STATE (TodosStatusBloc) ---> ${state.runtimeType}');
           if (state is TodosStatusLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Material(child: Center(child: CircularProgressIndicator()));
           }
 
           if (state is! TodosStatusLoaded) {
-            return const Center(child: Text('Something Went Wrong'));
+            return const Material(child: Center(child: Text('Something Went Wrong')));
           }
 
           return DefaultTabController(

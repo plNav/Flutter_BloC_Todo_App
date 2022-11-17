@@ -23,7 +23,7 @@ class TodosStatusBloc extends Bloc<TodosStatusEvent, TodosStatusState> {
 
     _todosSubscription = _todosBloc.stream.listen((state) {
       if (state is TodosLoaded) {
-        printC(ERROR, 'Subscription Called');
+        printC(RED, 'Subscription Called (TodosStatusBloc) => TODOS updated by MAIN');
         add(UpdateTodosStatus(todos: state.todos));
       }
     });
@@ -33,7 +33,7 @@ class TodosStatusBloc extends Bloc<TodosStatusEvent, TodosStatusState> {
     UpdateTodosStatus event,
     Emitter<TodosStatusState> emit,
   ) {
-    printC(CYAN, 'ON UPDATE TODOS STATUS');
+    printC(CYAN, 'UPDATE TODOS STATUS (TodosStatusBloc)');
 
     List<Todo> pendingTodos = event.todos
         .where((todo) => todo.isCancelled == false && todo.isCompleted == false)
