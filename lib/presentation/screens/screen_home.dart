@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<TodosBloc, TodosState>(
       listener: (context, mainState) {
-        printC(GREEN, 'STATE (TodosBloc) ---> ${mainState.runtimeType}');
+        printC(green, 'STATE (TodosBloc) ---> ${mainState.runtimeType}');
         if (mainState is TodosDeleted) {
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(_deleteSnackBar(mainState, context));
@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
       },
       child: BlocBuilder<TodosStatusBloc, TodosStatusState>(
         builder: (context, state) {
-          printC(YELLOW, 'STATE (TodosStatusBloc) ---> ${state.runtimeType}');
+          printC(yellow, 'STATE (TodosStatusBloc) ---> ${state.runtimeType}');
           if (state is TodosStatusLoading) {
             return const Material(child: Center(child: CircularProgressIndicator()));
           }
@@ -57,12 +57,7 @@ class HomeScreen extends StatelessWidget {
                 title: const Text('BloC Pattern: To Dos'),
                 actions: [
                   IconButton(
-                    onPressed: () {
-                      printC(ERROR, 'BEFORE');
-                      Navigator.of(context).pushNamed(addTodo);
-                      printC(ERROR, 'AFTER');
-
-                    },
+                    onPressed: () => Navigator.of(context).pushNamed(addTodo),
                     icon: const Icon(Icons.add),
                   ),
                 ],
@@ -177,7 +172,7 @@ class HomeScreen extends StatelessWidget {
           if ((state as TodosLoaded).lastTodo == null) {
             return;
           }
-          printC(PURPLE, 'ADD TODO FROM "UNDO"');
+          printC(purple, 'ADD TODO FROM "UNDO"');
           context.read<TodosBloc>().add(AddTodo(todo: state.lastTodo!));
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
         },

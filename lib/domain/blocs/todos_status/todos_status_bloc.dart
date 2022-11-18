@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:bloc_testing/data/models/model_todos.dart';
@@ -7,7 +5,6 @@ import 'package:bloc_testing/domain/blocs/todos/todos_bloc.dart';
 import 'package:bloc_testing/util/console_printer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-
 
 part 'todos_status_event.dart';
 
@@ -24,7 +21,7 @@ class TodosStatusBloc extends Bloc<TodosStatusEvent, TodosStatusState> {
 
     _todosSubscription = _todosBloc.stream.listen((state) {
       if (state is TodosLoaded) {
-        printC(RED, 'Subscription Called (TodosStatusBloc) => TODOS updated by MAIN');
+        printC(red, 'Subscription Called (TodosStatusBloc) => TODOS updated by MAIN');
         add(UpdateTodosStatus(todos: state.todos));
       }
     });
@@ -34,7 +31,7 @@ class TodosStatusBloc extends Bloc<TodosStatusEvent, TodosStatusState> {
     UpdateTodosStatus event,
     Emitter<TodosStatusState> emit,
   ) {
-    printC(CYAN, 'UPDATE TODOS STATUS (TodosStatusBloc)');
+    printC(cyan, 'UPDATE TODOS STATUS (TodosStatusBloc)');
 
     List<Todo> pendingTodos = event.todos
         .where((todo) => todo.isCancelled == false && todo.isCompleted == false)

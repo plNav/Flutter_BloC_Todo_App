@@ -1,9 +1,12 @@
+import 'package:bloc_testing/domain/blocs/todos/todos_bloc.dart';
+import 'package:bloc_testing/domain/repositories/abstractions/i_todos_repository.dart';
+import 'package:bloc_testing/domain/repositories/dio/dio_todos_repository.dart';
 import 'package:bloc_testing/presentation/navigation/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'presentation/navigation/routes.dart';
-import 'domain/blocs/simple_bloc_observer.dart';
+import 'package:bloc_testing/presentation/navigation/routes.dart';
+import 'package:bloc_testing/domain/blocs/simple_bloc_observer.dart';
 
 void main() {
   //printCTest();
@@ -16,18 +19,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BloC Pattern - Todos',
-      routes: Routes.routes,
-      initialRoute: home,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: const Color(0xFF000A1F),
-        appBarTheme: const AppBarTheme(
-          color: Color(0xFF000A1F),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<ITodosRepository>(create: (_) => DioTodosRepository())
+      ],
+      child: BlocProvider(
+        create: (context) => TodosBloc(todosRepository: context.read()),
+        child: MaterialApp(
+          title: 'BloC Pattern - Todos',
+          routes: Routes.routes,
+          initialRoute: home,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            primaryColor: const Color(0xFF000A1F),
+            appBarTheme: const AppBarTheme(
+              color: Color(0xFF000A1F),
+            ),
+          ),
+          // home: const HomeScreen(),
         ),
       ),
-     // home: const HomeScreen(),
     );
   }
 }

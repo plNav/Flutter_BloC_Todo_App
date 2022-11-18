@@ -3,8 +3,6 @@ import 'package:bloc_testing/domain/blocs/todos/todos_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
-
 class AddTodoScreen extends StatelessWidget {
   const AddTodoScreen({Key? key}) : super(key: key);
 
