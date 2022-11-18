@@ -21,10 +21,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<ITodosRepository>(create: (_) => DioTodosRepository())
+        RepositoryProvider<ITodosRepository>(create: (_) => DioTodosRepository()),
       ],
-      child: BlocProvider(
-        create: (context) => TodosBloc(todosRepository: context.read()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => TodosBloc(todosRepository: context.read<ITodosRepository>()),
+          ),
+        ],
         child: MaterialApp(
           title: 'BloC Pattern - Todos',
           routes: Routes.routes,
