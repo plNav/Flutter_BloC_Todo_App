@@ -5,9 +5,9 @@ import '../blocs/todos/todos_bloc.dart';
 
 import '../blocs/todos_status/todos_status_bloc.dart';
 import '../models/model_todos.dart';
+import '../navigation/paths.dart';
 import '../util/console_printer.dart';
 import '../util/info_popup.dart';
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -58,8 +58,12 @@ class HomeScreen extends StatelessWidget {
                 title: const Text('BloC Pattern: To Dos'),
                 actions: [
                   IconButton(
-                    onPressed: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => const AddTodoScreen())),
+                    onPressed: () {
+                      printC(ERROR, 'BEFORE');
+                      Navigator.of(context).pushNamed(addTodo);
+                      printC(ERROR, 'AFTER');
+
+                    },
                     icon: const Icon(Icons.add),
                   ),
                 ],
@@ -100,8 +104,7 @@ class HomeScreen extends StatelessWidget {
               ),
               IconButton(
                 icon: const Icon(Icons.error),
-                onPressed: () =>
-                    context.read<TodosBloc>().add(const TodoError()),
+                onPressed: () => context.read<TodosBloc>().add(const TodoError()),
               ),
             ],
           ),
@@ -137,20 +140,20 @@ class HomeScreen extends StatelessWidget {
                     IconButton(
                       onPressed: () {
                         context.read<TodosBloc>().add(
-                          UpdateTodo(
-                            todo: todo.copyWith(isCompleted: true),
-                          ),
-                        );
+                              UpdateTodo(
+                                todo: todo.copyWith(isCompleted: true),
+                              ),
+                            );
                       },
                       icon: const Icon(Icons.add_task),
                     ),
                     IconButton(
                       onPressed: () {
                         context.read<TodosBloc>().add(
-                          DeleteTodo(
-                            todo: todo.copyWith(isCancelled: true),
-                          ),
-                        );
+                              DeleteTodo(
+                                todo: todo.copyWith(isCancelled: true),
+                              ),
+                            );
                       },
                       icon: const Icon(Icons.cancel),
                     ),

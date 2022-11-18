@@ -1,21 +1,23 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_testing/util/console_printer.dart';
 
 class SimpleBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {
-    print('Observer onEvent => ${bloc.runtimeType}');
+    printC(BLUE, 'Observer onEvent => ${bloc.runtimeType} -> ${event.runtimeType}');
     super.onEvent(bloc, event);
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    print('Observer onError => ${bloc.runtimeType}');
+    printC(BLUE, 'Observer onError => ${bloc.runtimeType}');
     super.onError(bloc, error, stackTrace);
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-   print('Observer onTransition => $transition ${bloc.runtimeType}');
+    printC(BLUE,
+        'Observer onTransition => ${bloc.runtimeType} -> ${transition.event.runtimeType}');
     super.onTransition(bloc, transition);
   }
 }

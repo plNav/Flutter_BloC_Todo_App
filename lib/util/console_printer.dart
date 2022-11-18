@@ -34,25 +34,22 @@ printC(String color, String msg, {bool printLabel = false}) {
   print('${count < 10 ? '0${count++}' : count++} $color $msg $END');
 }
 
-///Show console msg with color and Stacktrace.
+///Show console msg with counter, color and Stacktrace.
 ///
 ///[color] constants declared in <b>utils > console_printer.dart</b>
-///[printLabel] default false, if true [printCWarning] before [msg].
-printStacktrace(String color, String msg, {bool printLabel = false}) {
-  if (printLabel) {
-    printCWarning();
-  }
+printStacktrace(String color, String msg) {
   final body = '$color $msg $END';
   print('${count < 10 ? '0${count++}' : count++} $body ${StackTrace.current.toString()}');
 }
 
-///Prints visible multiline WARNING with colors in console.
+///Prints visible multiline WARNING with colors & stacktrace in console.
 printCWarning() {
   print('\n');
   print('$WARNING*********************************$END');
   print('$WARNING**$ERROR    *      WARNING      *   $END $WARNING**$END');
   print('$WARNING*********************************$END');
   print('\n');
+  print(StackTrace.current.toString());
 }
 
 ///Shows different colors for [printC] and prints [printCWarning].
@@ -75,8 +72,10 @@ printCTest() {
 
 ///Prints Ratio, With & Height for the currentScreen by [context] labelled by [screen].
 void printCScreenSize(BuildContext context, String screen) {
+  print('\n');
   printC(BLUE, 'Screen rebuilt [$screen]');
   printC(CYAN, 'Ratio  => ${MediaQuery.of(context).size.aspectRatio}');
   printC(CYAN, 'Width  => ${MediaQuery.of(context).size.width}');
   printC(CYAN, 'Height => ${MediaQuery.of(context).size.height} $END \n.');
+  print('\n');
 }
