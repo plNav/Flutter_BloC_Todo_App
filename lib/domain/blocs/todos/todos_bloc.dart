@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_testing/data/models/model_todos.dart';
+import 'package:bloc_testing/util/console_printer.dart';
 import 'package:equatable/equatable.dart';
-import '../../models/model_todos.dart';
-import '../../util/console_printer.dart';
+
+
+
 
 part 'todos_event.dart';
 

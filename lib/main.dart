@@ -1,14 +1,9 @@
-import 'package:bloc_testing/ui/screen_home.dart';
-import 'package:bloc_testing/util/console_printer.dart';
+import 'package:bloc_testing/presentation/navigation/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/todos/todos_bloc.dart';
-import 'blocs/todos_status/todos_status_bloc.dart';
-import 'models/model_todos.dart';
-import 'navigation/paths.dart';
-import 'navigation/routes.dart';
-import 'simple_bloc_observer.dart';
+import 'presentation/navigation/routes.dart';
+import 'domain/blocs/simple_bloc_observer.dart';
 
 void main() {
   //printCTest();

@@ -1,12 +1,13 @@
+
+
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:bloc_testing/data/models/model_todos.dart';
+import 'package:bloc_testing/domain/blocs/todos/todos_bloc.dart';
+import 'package:bloc_testing/util/console_printer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-
-import '../../models/model_todos.dart';
-import '../../util/console_printer.dart';
-import '../todos/todos_bloc.dart';
 
 part 'todos_status_event.dart';
 

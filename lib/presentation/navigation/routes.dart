@@ -1,14 +1,12 @@
-import 'dart:developer';
-
-import 'package:bloc_testing/blocs/todos/todos_bloc.dart';
-import 'package:bloc_testing/navigation/paths.dart';
-import 'package:bloc_testing/ui/screen_add_todo.dart';
-import 'package:bloc_testing/ui/screen_home.dart';
+import 'package:bloc_testing/data/models/model_todos.dart';
+import 'package:bloc_testing/domain/blocs/todos/todos_bloc.dart';
+import 'package:bloc_testing/domain/blocs/todos_status/todos_status_bloc.dart';
+import 'package:bloc_testing/presentation/navigation/paths.dart';
+import 'package:bloc_testing/presentation/screens/screen_add_todo.dart';
+import 'package:bloc_testing/presentation/screens/screen_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/todos_status/todos_status_bloc.dart';
-import '../models/model_todos.dart';
 
 class Routes {
   static final _todosBloc = TodosBloc();

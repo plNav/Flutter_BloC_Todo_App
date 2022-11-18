@@ -1,13 +1,12 @@
-import 'package:bloc_testing/ui/screen_add_todo.dart';
+import 'package:bloc_testing/data/models/model_todos.dart';
+import 'package:bloc_testing/domain/blocs/todos/todos_bloc.dart';
+import 'package:bloc_testing/domain/blocs/todos_status/todos_status_bloc.dart';
+import 'package:bloc_testing/presentation/navigation/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/todos/todos_bloc.dart';
 
-import '../blocs/todos_status/todos_status_bloc.dart';
-import '../models/model_todos.dart';
-import '../navigation/paths.dart';
-import '../util/console_printer.dart';
-import '../util/info_popup.dart';
+import 'package:bloc_testing/util/console_printer.dart';
+import 'package:bloc_testing/presentation/widgets/info_popup.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
